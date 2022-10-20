@@ -1,0 +1,25 @@
+CREATE DATABASE IF NOT EXISTS db_univ;
+use db_univ;
+CREATE TABLE t_instruktur (nip varchar(5) PRIMARY KEY NOT NULL, nama_ins varchar(100) NOT NULL, jurusan varchar(50) NOT NULL, asal_kota varchar(20));
+CREATE TABLE t_matakuliah (kd_mk varchar(10) PRIMARY KEY NOT NULL, nama_mk varchar(50) NOT NULL, sks int(5));
+CREATE TABLE t_ambil_mk (nip varchar(5) NOT NULL, kd_mk varchar(10) NOT NULL, ruangan char(5) NOT NULL, jml_mhs int(5));
+
+/* insert data */
+INSERT INTO t_instruktur VALUES ("1", "Muhammad Akbar", "Ilmu Sejarah", "Malang"), 
+("2", "Saichul Fitrian A.", "Ilmu Komputer", "Malang"), ("3", "Annafia Oktafian", "Ilmu Komputer", "Klaten"), 
+("4", "Budy Pratama", "Ilmu Komputer", "Magelang");
+
+INSERT INTO t_matakuliah VALUES ("PTI101", "Algoritma dan Pemograman", 3), ("PTI102", "Basis Data", 3), 
+("PTI103", "Visual Basic", 3), ("IS101", "Sejarah Indonesia", 3);
+
+INSERT INTO t_ambil_mk VALUES ("3", "PTI101", "H5211", 40), ("2", "PTI102", "H5212", 45), 
+("2", "PTI103", "H5206", 40), ("1", "IS101", "17312", 30);
+
+/* No 1 */
+SELECT t_ambil_mk.kd_mk, t_matakuliah.nama_mk FROM t_ambil_mk INNER JOIN t_matakuliah ON t_ambil_mk.kd_mk = t_matakuliah.kd_mk WHERE jml_mhs = 40;
+
+/* No 2 */
+SELECT * FROM t_instruktur INNER JOIN t_ambil_mk ON t_instruktur.nip = t_ambil_mk.nip INNER JOIN t_matakuliah ON t_ambil_mk.kd_mk = t_matakuliah.kd_mk WHERE t_matakuliah.nama_mk = "Basis Data";
+
+/* No 3 */
+SELECT * FROM t_instruktur LEFT OUTER JOIN t_ambil_mk ON t_instruktur.nip = t_ambil_mk.nip WHERE t_ambil_mk.nip IS NULL;
